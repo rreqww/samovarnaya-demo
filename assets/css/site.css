@@ -1,0 +1,263 @@
+/* =========================================================
+   Самоварная, демоверсия.
+   Направление: split stage (taste-skill, seed 618701238).
+   Цвета сняты с их обложки, мотив арки оттуда же.
+   Заголовочный шрифт Ruslan Display, выбран заказчиком.
+   ========================================================= */
+
+@font-face{
+  font-family:'Ruslan Display';
+  src:url('../fonts/ruslan-display.woff2') format('woff2');
+  font-weight:400;font-style:normal;font-display:swap;
+}
+
+/* ---------- 1. Токены ---------- */
+:root{
+  --paper:#EFEAE0;
+  --paper-2:#E4DED1;
+  --ink:#1F1512;
+  --ink-2:#4A3A33;
+  --muted:#6B584F;
+  --wine:#7A1518;
+  --wine-2:#5C0F12;
+  --brass:#B08642;
+  --brass-ink:#D7AC5C;
+
+  --display:'Ruslan Display', Georgia, serif;
+  --text:'Literata', Georgia, serif;
+
+  --t-small:1rem;
+  --t-body:clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  --t-lead:clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --t-head:clamp(1.75rem, 1.1rem + 2.6vw, 3.25rem);
+  --t-display:clamp(2.5rem, 8vw, 7rem);
+
+  --pad:clamp(1.25rem, 4vw, 3rem);
+  --sect:clamp(4rem, 9vw, 8rem);
+  --maxw:1500px;
+  --ease:cubic-bezier(.2,.7,.3,1);
+  --arch:50% 50% 0 0 / 28% 28% 0 0;
+}
+
+/* ---------- 2. База ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:5rem}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 var(--t-body)/1.6 var(--text);overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+ul,ol{list-style:none;margin:0;padding:0}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--wine);outline-offset:3px}
+
+.skip{position:absolute;left:-9999px;top:0;z-index:99;background:var(--ink);color:var(--paper);padding:1rem 1.5rem}
+.skip:focus{left:0}
+
+.h2{
+  margin:0 0 1.25rem;font-family:var(--display);font-weight:400;
+  font-size:var(--t-head);line-height:1.08;letter-spacing:0.01em;
+}
+.arch{border-radius:var(--arch);overflow:hidden;background:var(--paper-2)}
+.arch img{width:100%;height:100%;object-fit:cover}
+
+/* ---------- 3. Занавес на входе ---------- */
+.veil{position:fixed;inset:0;z-index:90;pointer-events:none}
+.veil__half{position:absolute;top:0;bottom:0;width:50.5%;background:var(--wine);transition:transform 1.25s var(--ease)}
+.veil__half--l{left:0}
+.veil__half--r{right:0}
+.veil.is-open .veil__half--l{transform:translateX(-101%)}
+.veil.is-open .veil__half--r{transform:translateX(101%)}
+.veil__word{
+  position:absolute;inset:0;display:grid;place-content:center;
+  font-family:var(--display);font-size:clamp(1.5rem,5vw,3.5rem);
+  letter-spacing:0.18em;text-indent:0.18em;color:var(--paper);
+  transition:opacity .5s ease, transform .9s var(--ease);
+}
+.veil.is-dim .veil__word{opacity:0;transform:translateY(-1.25rem)}
+.veil.is-gone{display:none}
+
+/* ---------- 4. Действие ---------- */
+.hero .act,.archive .act{color:var(--brass-ink)}
+.hero .act span::after,.archive .act span::after{background:var(--brass-ink)}
+.act{
+  display:inline-flex;align-items:center;gap:0.75rem;text-decoration:none;
+  font-family:var(--display);font-size:var(--t-small);letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--wine);padding:0.5rem 0;
+}
+.act span{position:relative;padding-bottom:0.3rem}
+.act span::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--wine);
+  transform-origin:left;transition:transform .35s var(--ease);
+}
+.act:hover span::after{transform:scaleX(0);transform-origin:right}
+.act::after{content:"→";font-family:var(--text);transition:transform .35s var(--ease)}
+.act:hover::after{transform:translateX(0.35rem)}
+.act--sm{font-size:0.9375rem}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;min-height:3rem;padding:0 1.5rem;
+  border:1.5px solid var(--ink);background:transparent;color:var(--ink);text-decoration:none;
+  font:600 var(--t-small)/1 var(--text);transition:background .2s ease,color .2s ease;
+}
+.btn:hover{background:var(--ink);color:var(--paper)}
+
+/* ---------- 5. Шапка ---------- */
+/* шапка и первый экран держат фирменный бордовый */
+/* фон шапки во всю ширину, иначе на широком экране по краям видно бумагу */
+.top{background:#700B08;color:var(--paper)}
+.top__in{display:flex;align-items:center;gap:clamp(1rem,3vw,2.5rem);padding:1.25rem var(--pad);max-width:var(--maxw);margin:0 auto}
+.brandmark{display:flex;align-items:center;gap:0.625rem;font-family:var(--display);font-size:1.5rem;letter-spacing:0.05em;text-decoration:none;margin-right:auto}
+.brandmark img{width:1.5rem;height:auto}
+.nav{display:none;gap:clamp(1rem,2vw,1.75rem)}
+.nav a{text-decoration:none;font-size:var(--t-small)}
+.nav a:hover{color:var(--brass-ink)}
+.top .btn{display:none;border-color:rgba(240,234,224,.55);color:var(--paper)}
+.top .btn:hover{background:var(--paper);color:var(--wine)}
+
+/* ---------- 6. Первый экран ---------- */
+/* орнамент и подложка взяты с их обложки одним файлом */
+.hero{position:relative;background:#700B08 url('../svg/ornament-1024.svg') 0 0/clamp(22rem,34vw,34rem) repeat;color:var(--paper);display:grid;grid-template-columns:1fr;padding-bottom:clamp(2.5rem,6vw,5rem)}
+.hero__stage{order:-1;padding:0 var(--pad)}
+.hero__stage .arch{height:clamp(20rem,52svh,34rem);position:relative}
+/* два кадра лежат друг на друге: один гаснет, второй проявляется,
+   поэтому между ними не проскакивает фон */
+.stage{position:relative}
+.stage__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease}
+.stage__img.is-on{opacity:1}
+.hero__card{padding:0 var(--pad)}
+.hero__card-in{
+  padding:clamp(1.5rem,5vw,3rem) clamp(1rem,3vw,2rem);position:relative;
+  display:grid;justify-items:start;gap:1.25rem;
+}
+.hero__logo{width:min(100%,21rem);height:auto;margin-bottom:0.5rem}
+.hero__h{margin:0;font-family:var(--display);font-weight:400;font-size:clamp(1.125rem,3vw,1.75rem);line-height:1.2;letter-spacing:0.01em;color:var(--brass-ink)}
+.hero__sub{color:#EBD9C4;max-width:40ch}
+.hero__links{display:flex;flex-wrap:wrap;gap:1.25rem;font-size:var(--t-small)}
+.hero__links a{color:#EBD9C4}
+.hero__links a:hover{color:var(--brass-ink)}
+
+
+/* ---------- 7. Архив ---------- */
+/* примыкает к первому экрану: отступа сверху нет, иначе между ними
+   светится бумага. Узора здесь нет, он остаётся приёмом первого экрана. */
+.archive{background:#700B08;color:var(--paper);margin-top:var(--sect);padding:var(--sect) 0}
+.archive--ice{margin-top:var(--sect)}
+.orn{width:7.5rem;height:auto;margin-bottom:1.25rem;fill:none;stroke:var(--brass-ink);stroke-width:1.6;stroke-linecap:round}
+.archive__in{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad)}
+.archive__lead{max-width:46ch;color:#EBD9C4;margin-bottom:clamp(2.5rem,5vw,4rem)}
+.recs{display:grid;gap:clamp(2rem,4vw,3rem)}
+.rec__n{margin:0 0 0.5rem;font-family:var(--display);font-weight:400;font-size:var(--t-lead);line-height:1.2;color:var(--brass-ink)}
+.rec__t{max-width:44ch;color:#EBD9C4}
+
+/* ---------- 8. Из меню ---------- */
+.dishes{margin-top:var(--sect);max-width:var(--maxw);margin-inline:auto;padding:0 var(--pad)}
+.dishes__head{margin-bottom:clamp(2rem,4vw,3rem)}
+.dishes__lead{max-width:48ch;color:var(--ink-2)}
+.plates{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(1rem,2.5vw,2rem)}
+.plate .arch{height:clamp(9rem,24vw,17rem);background:var(--paper-2)}
+.plate .arch img{transition:transform .6s var(--ease)}
+.plate:hover .arch img{transform:scale(1.05)}
+.plate__n{
+  display:flex;gap:0.75rem;justify-content:space-between;align-items:baseline;
+  margin-top:0.875rem;font-family:var(--display);font-size:var(--t-small);
+  letter-spacing:0.02em;line-height:1.3;
+}
+.plate__n b{flex:none;font-weight:400;color:var(--wine)}
+.plate__d{margin-top:0.25rem;font-size:0.9375rem;line-height:1.45;color:var(--muted)}
+
+/* ---------- 9. Чай ---------- */
+.tea{margin-top:var(--sect);max-width:var(--maxw);margin-inline:auto;padding:0 var(--pad);display:grid;gap:clamp(2rem,5vw,3.5rem)}
+.tea__text{display:grid;gap:1rem}
+.tea__text p{max-width:46ch;color:var(--ink-2)}
+.tea__shots{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(0.75rem,2vw,1.25rem)}
+.tea__f{margin:0}
+.tea__f .arch{height:clamp(10rem,28vw,22rem)}
+
+/* ---------- 11. Убранство ---------- */
+.rooms{margin-top:var(--sect)}
+.rooms__head{max-width:var(--maxw);margin:0 auto clamp(2rem,4vw,3rem);padding:0 var(--pad)}
+.rooms__lead{max-width:46ch;color:var(--ink-2)}
+/* без scroll-snap: он перехватывал колесо и подвешивал прокрутку страницы */
+.row{display:flex;gap:clamp(0.75rem,1.6vw,1.25rem);overflow-x:auto;overscroll-behavior-x:contain;padding:0 var(--pad) 1rem;scrollbar-width:none;cursor:grab}
+.row::-webkit-scrollbar{display:none}
+.row__i{flex:0 0 min(78vw,34rem)}
+.row__i--tall{flex-basis:min(62vw,22rem)}
+.row__i .arch{height:clamp(16rem,46vh,30rem)}
+.row__i--tall .arch{height:clamp(22rem,62vh,40rem)}
+
+/* ---------- 12. Как найти ---------- */
+.where{margin-top:var(--sect);display:grid;gap:clamp(2rem,4vw,3rem)}
+.where__shot{margin:0;padding:0 var(--pad)}
+.where__shot .arch{height:clamp(14rem,40vw,28rem)}
+.where__r{padding:clamp(0.875rem,2.4vw,1.5rem) var(--pad);font-family:var(--display);font-weight:400;font-size:var(--t-head);line-height:1.1;letter-spacing:0.01em}
+.where__r--a{background:var(--paper-2)}
+.where__r a{text-decoration:none}
+.where__r a:hover{color:var(--wine)}
+.where__go{padding:1.5rem var(--pad) 0;display:flex;flex-wrap:wrap;gap:1rem 1.5rem;align-items:center}
+.where__hint{font-size:var(--t-small);color:var(--muted)}
+
+/* ---------- 13. Подвал ---------- */
+.foot{position:relative;margin-top:var(--sect);color:var(--paper);overflow:hidden;isolation:isolate}
+.foot__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.foot::after{content:"";position:absolute;inset:0;background:rgba(27,16,14,.84);z-index:-1}
+.foot__in{max-width:var(--maxw);margin:0 auto;padding:clamp(3rem,8vw,6rem) var(--pad) 1.5rem}
+.foot__mark{width:3.25rem;height:auto;margin-bottom:1.25rem;opacity:.9}
+.foot__word{font-family:var(--display);font-size:var(--t-display);line-height:1;letter-spacing:0.05em;margin:0 0 clamp(2.5rem,6vw,4rem)}
+.foot__cols{display:grid;grid-template-columns:1fr;gap:2rem;margin-bottom:3rem}
+.foot__links{display:grid;gap:0.625rem;font-size:var(--t-small)}
+.foot__links a{text-decoration:none}
+.foot__links a:hover{color:var(--brass-ink)}
+.foot__end{display:grid;gap:1rem;font-size:var(--t-small);color:#C9B6A6}
+.foot__end p{max-width:68ch}
+
+/* ---------- 14. Плашка автора демо ---------- */
+.demo{position:fixed;right:0.75rem;bottom:0.75rem;z-index:60;max-width:min(22rem,calc(100vw - 1.5rem));text-align:right}
+.demo__t{border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;min-height:2.5rem;padding:0 1rem;font:600 var(--t-small)/1 var(--text)}
+.demo__b{margin-top:0.5rem;background:var(--paper);border:1.5px solid var(--paper-2);padding:1rem;text-align:left}
+.demo__b p{font-size:var(--t-small);margin-bottom:0.75rem}
+
+/* кадры садятся в размер при появлении */
+.row__i .arch img,.tea__f .arch img,.where__shot .arch img{transform:scale(1.09);transition:transform 1.6s var(--ease)}
+.row__i.in .arch img,.tea__f.in .arch img,.where__shot.in .arch img{transform:scale(1)}
+.row__i .arch img{transition:transform 1.6s var(--ease), filter .5s ease}
+.row__i:hover .arch img{transform:scale(1.04)}
+
+/* ---------- 15. Появления ---------- */
+.r{opacity:0;transform:translateY(1.75rem)}
+.r.in{opacity:1;transform:none;transition:opacity .85s ease, transform .85s var(--ease);transition-delay:var(--d,0ms)}
+
+/* ---------- 16. Шире телефона ---------- */
+@media (min-width:48rem){
+  .recs{grid-template-columns:1fr 1fr;column-gap:clamp(2rem,5vw,5rem)}
+  .plates{grid-template-columns:repeat(3,1fr)}
+  .foot__cols{grid-template-columns:1fr 1fr}
+  .foot__end{grid-template-columns:1fr auto;align-items:end}
+}
+
+@media (min-width:64rem){
+  .nav{display:flex}
+  .top .btn{display:inline-flex}
+
+  .hero{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(1.5rem,3vw,3rem);padding:0 var(--pad);align-items:start}
+  .hero__card{padding:0;display:grid;align-content:center;min-height:calc(100svh - 6rem)}
+  .hero__card-in{margin-top:0}
+  .hero__h{font-size:clamp(1.25rem,1.9vw,1.875rem)}
+  .hero__stage{order:0;padding:0;position:sticky;top:1.5rem}
+  .hero__stage .arch{height:calc(100svh - 7rem)}
+
+  .tea{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:start;gap:clamp(2rem,4vw,4rem)}
+  .tea__text{position:sticky;top:4rem}
+
+  .where{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}
+  .where__shot{padding-left:var(--pad);padding-right:0}
+  .where__shot .arch{height:clamp(24rem,62vh,42rem)}
+
+  .row__i{flex-basis:min(40vw,30rem)}
+  .row__i--tall{flex-basis:min(26vw,20rem)}
+}
+
+/* ---------- 17. Уменьшенная анимация ---------- */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition-duration:.001ms!important;animation-duration:.001ms!important}
+  .r{opacity:1;transform:none}
+}
