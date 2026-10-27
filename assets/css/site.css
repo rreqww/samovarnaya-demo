@@ -1,5 +1,5 @@
 /* =========================================================
-   Самоварная, демоверсия.
+   Самоварная, ресторан купеческой кухни.
    Направление: split stage (taste-skill, seed 618701238).
    Цвета сняты с их обложки, мотив арки оттуда же.
    Заголовочный шрифт Ruslan Display, выбран заказчиком.
@@ -209,11 +209,6 @@ a{color:inherit}
 .foot__end{display:grid;gap:1rem;font-size:var(--t-small);color:#C9B6A6}
 .foot__end p{max-width:68ch}
 
-/* ---------- 14. Плашка автора демо ---------- */
-.demo{position:fixed;right:0.75rem;bottom:0.75rem;z-index:60;max-width:min(22rem,calc(100vw - 1.5rem));text-align:right}
-.demo__t{border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;min-height:2.5rem;padding:0 1rem;font:600 var(--t-small)/1 var(--text)}
-.demo__b{margin-top:0.5rem;background:var(--paper);border:1.5px solid var(--paper-2);padding:1rem;text-align:left}
-.demo__b p{font-size:var(--t-small);margin-bottom:0.75rem}
 
 /* кадры садятся в размер при появлении */
 .row__i .arch img,.tea__f .arch img,.where__shot .arch img{transform:scale(1.09);transition:transform 1.6s var(--ease)}

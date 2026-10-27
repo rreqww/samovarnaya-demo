@@ -1,5 +1,5 @@
 /* =========================================================
-   Самоварная, демоверсия.
+   Самоварная, ресторан купеческой кухни.
    Занавес на входе, портьеры раздвигаются над кадром,
    медленная смена залов, лента убранства тянется рукой.
    Без скрипта ничего не спрятано: страница просто стоит.
@@ -138,16 +138,5 @@
   }
 
   /* ---------- 5. Мелочи ---------- */
-  var demoT = document.getElementById('demoT');
-  var demoB = document.getElementById('demoB');
-  if (demoT) {
-    demoT.addEventListener('click', function () {
-      var isOpen = demoB.hasAttribute('hidden');
-      if (isOpen) demoB.removeAttribute('hidden');
-      else demoB.setAttribute('hidden', '');
-      demoT.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
-  }
-
   document.getElementById('year').textContent = new Date().getFullYear();
 })();
